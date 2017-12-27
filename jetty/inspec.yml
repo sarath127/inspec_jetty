@@ -1,0 +1,10 @@
+name: jetty_9.4.8_inspec
+title: jetty 9.4.8  insepc
+maintainer: Sarath kumar
+copyright: Sarath kumar
+copyright_email: sarathkumar.s@8kmiles.com
+license: Apache-2.0
+license: EPL-1.0
+summary: An InSpec Profile for jetty 9.4.8
+version: 0.1.0
+os-family: linux
