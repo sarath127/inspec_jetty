@@ -29,6 +29,11 @@ control 'jetty-01' do
   describe processes('java') do
       it { should exist }
   end
+  describe service('jetty') do
+      it { should be_installed }
+      it { should be_enabled }
+      it { should be_running }
+  end
 end
 
 
@@ -68,7 +73,7 @@ control 'jetty-04' do
       its('groups') { should eq ["root"]}
   end
   describe user ('jetty') do
-    it   {should exist}
+      it   {should exist}
       its('groups') { should eq ["jetty"]}
   end
 end
@@ -78,28 +83,32 @@ control 'jetty-05' do
   title 'checking jetty configuration'
   desc  'checking jetty configuration'
   describe file('/etc/default/jetty') do
-    it { should exist }
-    it { should be_file }
+      it { should exist }
+      it { should be_file }
   end
   describe file('/opt/jetty/bin/jetty.sh') do
-    it { should exist }
-    it { should exist }
+      it { should exist }
+      it { should exist }
   end
 end
 
 control 'jetty-06'do
   impact 1.0
   title 'checking user permissions'
-  desc  'checking user permissions'
+  desc 'The jetty folder should owned and grouped by jetty, be writable, readable and executable by jetty. It should be readable, executable by group and not readable, not writeable by others.'
   describe directory('/opt/jetty') do
     # verifies specific users
-    it { should be_owned_by 'jetty' }
-    it { should be_readable.by('jetty') }
-    it { should be_writable.by('jetty') }
-
-    # only applicable to unix group system
-    # it { should be_readable.by('owner') }
-    # it { should be_readable.by('group') }
-    # it { should be_readable.by('others') }
+      it { should be_owned_by 'jetty' }
+      it { should be_grouped_into 'jetty' }
+      it { should be_readable.by('jetty') }
+      it { should be_writable.by('jetty') }
+      it { should be_executable.by('jetty') }
+      it { should_not be_readable.by('others') }
+      it { should_not be_writable.by('others') }
+      it { should be_executable.by('others') }
+  end
+  describe passwd do
+     its('users'){should include 'jetty'}
+     its('users') { should_not include 'forbidden_user' }
   end
 end
