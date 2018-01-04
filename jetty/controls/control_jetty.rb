@@ -86,6 +86,10 @@ control 'jetty-05' do
       it { should exist }
       it { should be_file }
   end
+  describe file('/etc/init.d/jetty') do
+      it { should exist }
+      it { should be_file }
+  end
   describe file('/opt/jetty/bin/jetty.sh') do
       it { should exist }
       it { should exist }
@@ -95,20 +99,20 @@ end
 control 'jetty-06'do
   impact 1.0
   title 'checking user permissions'
-  desc 'The jetty folder should owned and grouped by jetty, be writable, readable and executable by jetty. It should be readable, executable by group and not readable, not writeable by others.'
+  desc 'The jetty folder should owned and grouped by jetty, be writable, readable and executable by jetty. It should be readable, executable by group and not readable, not writeable by root.'
   describe directory('/opt/jetty') do
     # verifies specific users
       it { should be_owned_by 'jetty' }
       it { should be_grouped_into 'jetty' }
-      it { should be_readable.by('jetty') }
-      it { should be_writable.by('jetty') }
-      it { should be_executable.by('jetty') }
-      it { should_not be_readable.by('others') }
+      #it { should be_readable.by('') }
+      #it { should be_writable.by('') }
+      #it { should be_executable.by('') }
+      it { should be_readable.by('others') }
       it { should_not be_writable.by('others') }
       it { should be_executable.by('others') }
   end
   describe passwd do
      its('users'){should include 'jetty'}
-     its('users') { should_not include 'forbidden_user' }
+     its('users'){ should_not include 'forbidden_user' }
   end
 end
