@@ -1,3 +1,4 @@
+
 # encoding: utf-8
 #
 # Copyright 2017, sarath kumar
@@ -18,7 +19,6 @@
 # author: Sarath kumar
 
 title 'Jetty server config'
-
 control 'jetty-01' do
   impact 1.0
   title 'checking java installed or not'
@@ -89,11 +89,12 @@ control 'jetty-05' do
   describe file('/etc/init.d/jetty') do
       it { should exist }
       it { should be_file }
+      it { should be_linked_to '/bin/systemctl' }
   end
   describe file('/opt/jetty/bin/jetty.sh') do
       it { should exist }
-      it { should exist }
   end
+
 end
 
 control 'jetty-06'do
@@ -101,18 +102,51 @@ control 'jetty-06'do
   title 'checking user permissions'
   desc 'The jetty folder should owned and grouped by jetty, be writable, readable and executable by jetty. It should be readable, executable by group and not readable, not writeable by root.'
   describe directory('/opt/jetty') do
-    # verifies specific users
+      # verifies specific users
       it { should be_owned_by 'jetty' }
       it { should be_grouped_into 'jetty' }
-      #it { should be_readable.by('') }
-      #it { should be_writable.by('') }
-      #it { should be_executable.by('') }
       it { should be_readable.by('others') }
       it { should_not be_writable.by('others') }
       it { should be_executable.by('others') }
   end
   describe passwd do
-     its('users'){should include 'jetty'}
+     its('users'){ should include 'jetty'}
      its('users'){ should_not include 'forbidden_user' }
+  end
+end
+
+control 'jetty-07'do
+  impact 1.0
+  title 'security and performance checking'
+  desc 'checking security and performance of jetty server'
+  describe ini('/opt/jetty/start.ini')do
+    its(['jetty.threadPool.minThreads']) { should eq '8080' }
+    its(['jetty.threadPool.maxThreads']) { should eq '8080' }
+    its(['jetty.threadPool.idleTimeout']) { should eq '8080' }
+    its(['jetty.httpConfig.secureScheme']) { should eq '8080' }
+    its(['jetty.httpConfig.securePort']) { should eq '8080' }
+    its(['jetty.httpConfig.outputBufferSize']) { should eq '8080' }
+    its(['jetty.httpConfig.outputAggregationSize']) { should eq '8080' }
+    its(['jetty.httpConfig.requestHeaderSize']) { should eq '8080' }
+    its(['jetty.httpConfig.responseHeaderSize']) { should eq '8080' }
+    its(['jetty.httpConfig.sendServerVersion']) { should eq '8080' }
+    its(['jetty.httpConfig.sendDateHeader']) { should eq '8080' }
+    its(['jetty.httpConfig.headerCacheSize']) { should eq '8080' }
+    its(['jetty.httpConfig.delayDispatchUntilContent']) { should eq '8080' }
+    its(['jetty.httpConfig.maxErrorDispatches']) { should eq '8080' }
+    its(['jetty.httpConfig.blockingTimeout']) { should eq '8080' }
+    its(['jetty.server.stopAtShutdown']) { should eq '8080' }
+    its(['jetty.server.stopTimeout']) { should eq '8080' }
+    its(['jetty.server.dumpAfterStart']) { should eq '8080' }
+    its(['jetty.server.dumpBeforeStop']) { should eq '8080' }
+    its(['jetty.http.host']) { should eq '8080' }
+    its(['jetty.http.port']) { should eq '8080' }
+    its(['jetty.http.idleTimeout']) { should eq '8080' }
+    its(['jetty.http.soLingerTime']) { should eq '8080' }
+    its(['jetty.http.acceptors']) { should eq '8080' }
+    its(['jetty.http.selectors']) { should eq '8080' }
+    its(['jetty.http.acceptorQueueSize']) { should eq '8080' }
+    its(['jetty.http.acceptorPriorityDelta']) { should eq '8080' }
+    its(['jetty.http.compliance']) { should eq '8080' }
   end
 end
