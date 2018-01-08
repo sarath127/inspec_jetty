@@ -1,4 +1,3 @@
-
 # encoding: utf-8
 #
 # Copyright 2017, sarath kumar
@@ -33,6 +32,9 @@ control 'jetty-01' do
       it { should be_installed }
       it { should be_enabled }
       it { should be_running }
+  end
+  describe package('openssl')do
+      it { should be_installed}
   end
 end
 
@@ -82,10 +84,6 @@ control 'jetty-05' do
   impact 1.0
   title 'checking jetty configuration'
   desc  'checking jetty configuration'
-  describe file('/etc/default/jetty') do
-      it { should exist }
-      it { should be_file }
-  end
   describe file('/etc/init.d/jetty') do
       it { should exist }
       it { should be_file }
@@ -93,6 +91,7 @@ control 'jetty-05' do
   end
   describe file('/opt/jetty/bin/jetty.sh') do
       it { should exist }
+      it { should be_file }
   end
 
 end
@@ -137,8 +136,6 @@ control 'jetty-07'do
     its(['jetty.httpConfig.blockingTimeout']) { should eq '1' }
     its(['jetty.server.stopAtShutdown']) { should eq 'true' }
     its(['jetty.server.stopTimeout']) { should eq '3000' }
-    its(['jetty.server.dumpAfterStart']) { should eq 'flase' }
-    its(['jetty.server.dumpBeforeStop']) { should eq 'flase' }
     its(['jetty.http.host']) { should eq '0.0.0.0' }
     its(['jetty.http.port']) { should eq '8080' }
     its(['jetty.http.idleTimeout']) { should eq '3000' }
@@ -148,5 +145,7 @@ control 'jetty-07'do
     its(['jetty.http.acceptorQueueSize']) { should eq '0' }
     its(['jetty.http.acceptorPriorityDelta']) { should eq '0' }
     its(['jetty.http.compliance']) { should eq 'RFC2616' }
+    its(['jetty.deploy.scanInterval']) { should eq '1' }
+    its(['jetty.deploy.monitoredPath']) {should eq '/var/www/webapps'}
   end
 end
