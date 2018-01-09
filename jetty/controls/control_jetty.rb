@@ -68,8 +68,8 @@ end
 
 control 'jetty-04' do
   impact 1.0
-  title 'checking user access'
-  desc  'checking user access'
+  title 'checking users'
+  desc  'checking users'
   describe user('root') do
       it { should exist }
       its('groups') { should eq ["root"]}
