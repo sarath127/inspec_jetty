@@ -121,29 +121,15 @@ control 'jetty-07'do
   describe ini('/opt/jetty/start.ini')do
     its(['jetty.threadPool.minThreads']) { should eq '8' }
     its(['jetty.threadPool.maxThreads']) { should eq '200' }
-    its(['jetty.threadPool.idleTimeout']) { should eq '60000' }
     its(['jetty.httpConfig.secureScheme']) { should eq 'https' }
     its(['jetty.httpConfig.securePort']) { should eq '8443' }
-    its(['jetty.httpConfig.outputBufferSize']) { should eq '32768' }
-    its(['jetty.httpConfig.outputAggregationSize']) { should eq '8192' }
-    its(['jetty.httpConfig.requestHeaderSize']) { should eq '8192' }
-    its(['jetty.httpConfig.responseHeaderSize']) { should eq '8192' }
-    its(['jetty.httpConfig.sendServerVersion']) { should eq 'true' }
-    its(['jetty.httpConfig.sendDateHeader']) { should eq 'false' }
-    its(['jetty.httpConfig.headerCacheSize']) { should eq '512' }
-    its(['jetty.httpConfig.delayDispatchUntilContent']) { should eq 'true' }
     its(['jetty.httpConfig.maxErrorDispatches']) { should eq '7' }
     its(['jetty.httpConfig.blockingTimeout']) { should eq '1' }
     its(['jetty.server.stopAtShutdown']) { should eq 'true' }
     its(['jetty.server.stopTimeout']) { should eq '3000' }
     its(['jetty.http.host']) { should eq '0.0.0.0' }
     its(['jetty.http.port']) { should eq '8080' }
-    its(['jetty.http.idleTimeout']) { should eq '3000' }
     its(['jetty.http.soLingerTime']) { should eq '-1' }
-    its(['jetty.http.acceptors']) { should eq '-1' }
-    its(['jetty.http.selectors']) { should eq '-1' }
-    its(['jetty.http.acceptorQueueSize']) { should eq '0' }
-    its(['jetty.http.acceptorPriorityDelta']) { should eq '0' }
     its(['jetty.http.compliance']) { should eq 'RFC2616' }
     its(['jetty.deploy.scanInterval']) { should eq '1' }
     its(['jetty.deploy.monitoredPath']) {should eq '/var/www/webapps'}
